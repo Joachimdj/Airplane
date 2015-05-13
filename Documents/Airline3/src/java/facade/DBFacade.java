@@ -5,7 +5,7 @@
  */
 package facade;
 
-import Entity.*;
+import Entity.*; 
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -62,21 +62,22 @@ public class DBFacade implements DBInterface{
         
     }
     
-    @Override
+  /*  @Override
     public Reservation CreateReservation(List<Passengers> passengerObjects, long flightID) {
+         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightid='"+flightID+"'");
+         
+      List<Flight> allFlights = query.getResultList();
+        
+       
+        Reservation r = new Reservation();
+         r.setFlightId(Long.parseLong(allFlights.get(0).toString()));
+        r.setPassengerCollection(passengerObjects); 
         em.getTransaction().begin(); 
      //   em.merge(p);
         em.getTransaction().commit();
         return null;
     }
-/*
-    @Override
-    public void updateReservation(Reservation p) {
-        em.getTransaction().begin();
-        em.merge(p);
-        em.getTransaction().commit();
-    }
-*/
+ */
  
  
 }

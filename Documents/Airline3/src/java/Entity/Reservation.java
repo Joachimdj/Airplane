@@ -24,10 +24,36 @@ public class Reservation implements Serializable {
     private Long reservationId;
     private Long passengerCount;
     private Long flightId;
-    private Collection<Passengers> passengerCollection;
+   
     public Long getId() {
         return reservationId;
     }
+
+    public Long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public Long getPassengerCount() {
+        return passengerCount;
+    }
+
+    public void setPassengerCount(Long passengerCount) {
+        this.passengerCount = passengerCount;
+    }
+
+    public Long getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(Long flightId) {
+        this.flightId = flightId;
+    }
+
+   
 
     public void setId(Long id) {
         this.reservationId = id;

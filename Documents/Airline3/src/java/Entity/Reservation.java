@@ -6,11 +6,9 @@
 package Entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.GeneratedValue; 
+import javax.persistence.Id; 
 
 /**
  *
@@ -20,22 +18,12 @@ import javax.persistence.Id;
 public class Reservation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long reservationId;
+    @GeneratedValue(generator = "g1") 
+    private Long reservationId; 
     private Long passengerCount;
     private Long flightId;
-   
-    public Long getId() {
-        return reservationId;
-    }
 
-    public Long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
-    }
+    
 
     public Long getPassengerCount() {
         return passengerCount;
@@ -53,10 +41,12 @@ public class Reservation implements Serializable {
         this.flightId = flightId;
     }
 
-   
+    public Long getId() {
+        return reservationId;
+    }
 
-    public void setId(Long id) {
-        this.reservationId = id;
+    public void setId(Long reservationId) {
+        this.reservationId = reservationId;
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package facade;
  
-import Entity.Flight;   
+import Entity.*;   
 import Entity.Reservation;
 import java.util.List; 
 
@@ -22,9 +22,9 @@ public interface DBInterface {
 
     public void deleteReservation(Long id);
     
-   // public Reservation CreateReservation(List<Passengers> passengerObjects, long flightID);
+  public Reservation CreateReservation(Passenger[] passengerObjects, long flightID);
 
-  //  public void updateReservation(Reservation p);
-
+  public Passenger CreatePassenger(Passenger passengerObject);
+ 
     
 }

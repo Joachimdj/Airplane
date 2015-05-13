@@ -62,22 +62,41 @@ public class DBFacade implements DBInterface{
         
     }
     
-  /*  @Override
-    public Reservation CreateReservation(List<Passengers> passengerObjects, long flightID) {
-         Query query = em.createQuery("SELECT f FROM Flight f WHERE f.flightid='"+flightID+"'");
+  @Override
+    public Reservation CreateReservation(Passenger[] passengerObjects, long flightID) {
          
-      List<Flight> allFlights = query.getResultList();
-        
+          
        
         Reservation r = new Reservation();
-         r.setFlightId(Long.parseLong(allFlights.get(0).toString()));
-        r.setPassengerCollection(passengerObjects); 
-        em.getTransaction().begin(); 
-     //   em.merge(p);
-        em.getTransaction().commit();
+         r.setFlightId(flightID);
+         r.setPassengerCount(Long.parseLong(""+passengerObjects.length));
+         
+          em.getTransaction().begin(); 
+        em.merge(r);
+          em.getTransaction().commit();
+          
+          for (Passenger passengerObject : passengerObjects) {
+        Passenger p = new Passenger(); 
+         p.setName(passengerObject.getName());
+         p.setAddress(passengerObject.getAddress());
+         p.setCity(passengerObject.getCity());
+         p.setCountry(passengerObject.getCountry());
+        // p.setReservationId(r);
+          
+         em.getTransaction().begin(); 
+          em.merge(p);
+            em.getTransaction().commit();
+        }
+        
+       
         return null;
     }
- */
+ @Override
+    public Passenger CreatePassenger(Passenger passengerObject) {
+         
+         
+        return null;
+    }
  
  
 }

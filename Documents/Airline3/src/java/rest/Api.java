@@ -17,7 +17,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import com.google.gson.Gson; 
 import facade.DBInterface; 
+import java.util.Arrays;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 
@@ -94,10 +96,12 @@ public class Api {
     }
 
     @POST  
-    public String addReservation(String s) { 
-        Reservation r = new Reservation();
-      //   facade.createReservation(r);
-        return "{\"result\" : \"Ok\"}";
+    @Consumes("application/json")
+    public String addReservation(String Passengers) { 
+       Passenger[] p = gson.fromJson(Passengers, Passenger[].class);
+        
+        facade.CreateReservation(p, 1);
+        return Arrays.toString(p);
     }
     
       @DELETE

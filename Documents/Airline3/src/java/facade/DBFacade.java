@@ -63,7 +63,7 @@ public class DBFacade implements DBInterface{
     }
     
     @Override
-    public Reservation CreateReservation(Passengers passengerObjects, long flightID) {
+    public Reservation CreateReservation(List<Passengers> passengerObjects, long flightID) {
         em.getTransaction().begin(); 
      //   em.merge(p);
         em.getTransaction().commit();

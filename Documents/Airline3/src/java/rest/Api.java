@@ -66,7 +66,7 @@ public class Api {
     }
      
     @GET
-    @Path("{startAirport}/{endAirport}/{date}")
+    @Path("{startAirport}/{endAirport}/{date}/{sdsd}")
     @Produces("text/plain")
     public String getFlights2(@PathParam("startAirport") String startAirport,@PathParam("endAirport") String endAirport,@PathParam("date") String date) throws NonexistentEntityException {
  
@@ -94,10 +94,9 @@ public class Api {
     }
 
     @POST  
-    public String addReservation(String s, long flightID) { 
+    public String addReservation(String s) { 
         Reservation r = new Reservation();
-        System.out.println(s);
-        facade.CreateReservation(s, flightID);
+      //   facade.createReservation(r);
         return "{\"result\" : \"Ok\"}";
     }
     
@@ -106,5 +105,5 @@ public class Api {
     public void deleteReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
          facade.deleteReservation(reservationId);
     }
-    
+     
 }

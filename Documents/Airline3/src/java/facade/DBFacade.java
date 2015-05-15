@@ -35,17 +35,25 @@ public class DBFacade implements DBInterface{
         return found;
     }
     @Override
+    public List<Passenger> getPassengers(Long id) {
+         List<Passenger> allReservations = new ArrayList();
+     Query query = em.createQuery("SELECT p FROM Passenger p WHERE p.reservationId = "+id);
+        allReservations = query.getResultList();
+        
+        return   allReservations;
+    }
+    @Override
     public List<Flight> getAllFlights(String startAirport, Long departuredate) {
         List<Flight> allFlights = new ArrayList();
-        Query query = em.createQuery("SELECT e FROM Flight e WHERE e.destination<='"+startAirport+"' AND e.departuredate>='"+departuredate+"'");
+        Query query = em.createQuery("SELECT e FROM Flight e WHERE e.departuredate='"+departuredate+"'  AND e.depature='"+startAirport.toLowerCase()+"' ");
         allFlights = query.getResultList();
         return allFlights;
     }
 
     @Override
-    public List<Flight> getAllFlights2(String startAirport,String endAirport,String date) {
+  public List<Flight> getAllFlights2(String startAirport,String endAirport, String date) {
         List<Flight> allFlights = new ArrayList();
-        Query query = em.createQuery("SELECT e FROM Flight e WHERE e.destination='"+startAirport+"' AND e.endAirport='"+endAirport+"' AND e.departuredate LIKE '"+date+"'");
+        Query query = em.createQuery("SELECT e FROM Flight e WHERE e.destination='"+endAirport.toLowerCase()+"' AND e.depature='"+startAirport.toLowerCase()+"' AND e.departuredate>='"+date+"'");
         allFlights = query.getResultList();
         return allFlights;
     }
@@ -75,13 +83,16 @@ public class DBFacade implements DBInterface{
         em.merge(r);
           em.getTransaction().commit();
           
+             List<Reservation> allReservations = new ArrayList();
+        Query query = em.createQuery("SELECT r FROM Reservation r");
+        allReservations = query.getResultList();
           for (Passenger passengerObject : passengerObjects) {
         Passenger p = new Passenger(); 
          p.setName(passengerObject.getName());
          p.setAddress(passengerObject.getAddress());
          p.setCity(passengerObject.getCity());
          p.setCountry(passengerObject.getCountry());
-        // p.setReservationId(r);
+        p.setReservationId(allReservations.get(allReservations.size()-1).getId());
           
          em.getTransaction().begin(); 
           em.merge(p);

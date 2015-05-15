@@ -24,19 +24,18 @@ public class Passenger implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Reservation reservationId;
+    private Long id; 
+    private Long reservationId;
     private String address;  
     private String city; 
     private String country; 
     private String name;
 
-    public Reservation getReservationId() {
+    public long getReservationId() {
         return reservationId;
     }
 
-    public void setReservationId(Reservation reservationId) {
+    public void setReservationId(long reservationId) {
         this.reservationId = reservationId;
     }
 

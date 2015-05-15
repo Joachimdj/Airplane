@@ -23,15 +23,17 @@ public class Flight   {
     private String departuredate;
     private Long price;
     private String destination;
+    private String depature;
     private Long planeid;
 
-    public Flight(Integer flightid, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, Long planeid) {
+    public Flight(Integer flightid, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String  depature, Long planeid) {
         this.flightid = flightid;
         this.arrivaldate = arrivaldate;
         this.bookedseats = bookedseats;
         this.departuredate = departuredate;
         this.price = price;
         this.destination = destination;
+        this.depature =  depature;
         this.planeid = planeid;
     }
 
@@ -85,6 +87,14 @@ public class Flight   {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public String getDepature() {
+        return depature;
+    }
+
+    public void setDepature(String depature) {
+        this.depature = depature;
     }
 
     public Long getPlaneid() {

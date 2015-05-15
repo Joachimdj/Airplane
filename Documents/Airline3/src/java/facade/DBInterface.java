@@ -26,5 +26,6 @@ public interface DBInterface {
 
   public Passenger CreatePassenger(Passenger passengerObject);
  
+  public List<Passenger> getPassengers(Long id);
     
 }

@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import com.google.gson.Gson; 
+import com.google.gson.JsonObject;
 import facade.DBInterface; 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,10 @@ public class Api {
      * Creates a new instance of Api
      */
     public Api() throws NonexistentEntityException, Exception {
+ 
 
+ 
+ 
     }
 
 
@@ -58,29 +62,38 @@ public class Api {
 
     
         List<Flight> allFlights = facade.getAllFlights(startAirport,departuredate);
-        if (allFlights == null) {
-            throw new NonexistentEntityException("404: No persons in database");
+          
+         if (allFlights.isEmpty()) {
+              JsonObject jo = new JsonObject();
+            jo.addProperty("code","1");
+            jo.addProperty("message", " No available flights");
+            jo.addProperty("description", "No available flights"); 
+            return  jo.toString();
         } 
-      
-        String json = gson.toJson(allFlights);
-        System.out.println(json);
-        return json;
+       
+        return gson.toJson(allFlights);
     }
      
     @GET
-    @Path("{startAirport}/{endAirport}/{date}/{sdsd}")
+    @Path("{startAirport}/{endAirport}/{date}")
     @Produces("text/plain")
     public String getFlights2(@PathParam("startAirport") String startAirport,@PathParam("endAirport") String endAirport,@PathParam("date") String date) throws NonexistentEntityException {
  
         List<Flight> allFlights = facade.getAllFlights2(startAirport,endAirport,date);
-        if (allFlights == null) {
-            throw new NonexistentEntityException("404: No persons in database");
-        } 
       
-        String json = gson.toJson(allFlights);
-        System.out.println(json);
-        return json;
+        if (allFlights.isEmpty()) {
+               JsonObject jo = new JsonObject();
+            jo.addProperty("code","1");
+            jo.addProperty("message", " No available flights");
+            jo.addProperty("description", "No available flights"); 
+            return  jo.toString();
+        }   
+        else
+        {
+        return gson.toJson(allFlights);
+        }
     }
+
      
     @GET
     @Path("{reservationId}")
@@ -88,11 +101,19 @@ public class Api {
     public String getSingleReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
 
         Reservation p = facade.getReservation(reservationId);
-        if (p == null) {
-            throw new NonexistentEntityException("404: Reservation not found");
+        if (p == null ) {
+                JsonObject jo = new JsonObject();
+            jo.addProperty("code","1");
+            jo.addProperty("message", "Invalid ReservationID");
+            jo.addProperty("description", "Invalid ReservationID"); 
+            return  jo.toString();
         }
+        else{
+        String jsonPassengers = gson.toJson(facade.getPassengers(reservationId));
         String json = gson.toJson(p);
-        return json;
+       
+        return json +",Passengers:"+ jsonPassengers ;
+        }
     }
 
     @POST  
@@ -101,13 +122,24 @@ public class Api {
        Passenger[] p = gson.fromJson(Passengers, Passenger[].class);
         
         facade.CreateReservation(p, 1);
-        return Arrays.toString(p);
+        if(Arrays.toString(p).isEmpty()){
+                JsonObject jo = new JsonObject();
+            jo.addProperty("code","9");
+            jo.addProperty("message", "Unknown error");
+            jo.addProperty("description", "Reservation not created"); 
+            return  jo.toString();
+        } else {
+            return  Arrays.toString(p);
+        }
+        
     }
     
       @DELETE
       @Path("delete/{reservationId}") 
     public void deleteReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
          facade.deleteReservation(reservationId);
+         
+         
     }
      
 }

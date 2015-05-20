@@ -13,11 +13,11 @@ import javax.persistence.Id;
  * @author JoachimDittman
  */
 @Entity
-public class Flight   {
-    
+public class Flight {
+
     @Id
-    private Integer flightid; 
-    private String AirlineName; 
+    private Integer flightid;
+    private String AirlineName;
     private String arrivaldate;
     private Long bookedseats;
     private String departuredate;
@@ -26,7 +26,7 @@ public class Flight   {
     private String depature;
     private Long planeid;
 
-    public Flight(Integer flightid, String AirlineName, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String  depature, Long planeid) {
+    public Flight(Integer flightid, String AirlineName, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String depature, Long planeid) {
         this.flightid = flightid;
         this.AirlineName = AirlineName;
         this.arrivaldate = arrivaldate;
@@ -34,12 +34,12 @@ public class Flight   {
         this.departuredate = departuredate;
         this.price = price;
         this.destination = destination;
-        this.depature =  depature;
+        this.depature = depature;
         this.planeid = planeid;
     }
 
     public Flight() {
-      
+
     }
 
     public Integer getFlightid() {
@@ -114,6 +114,4 @@ public class Flight   {
         this.planeid = planeid;
     }
 
-
-    
 }

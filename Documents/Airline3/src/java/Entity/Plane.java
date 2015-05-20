@@ -17,13 +17,14 @@ import javax.persistence.Id;
  */
 @Entity
 public class Plane implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String seats;
- 
+
     public String getName() {
         return name;
     }
@@ -72,5 +73,5 @@ public class Plane implements Serializable {
     public String toString() {
         return "Entity.Plane[ id=" + id + " ]";
     }
-    
+
 }

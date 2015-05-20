@@ -15,9 +15,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import facade.DBInterface; 
+import facade.DBInterface;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +45,8 @@ public class Api {
      * Creates a new instance of Api
      */
     public Api() throws NonexistentEntityException, Exception {
- 
 
- 
- 
     }
-
 
     /**
      * Retrieves representation of an instance of api.Api
@@ -60,131 +56,113 @@ public class Api {
     @GET
     @Path("{startAirport}/{departuredate}")
     @Produces("text/plain")
-    public String getFlights(@PathParam("startAirport") String startAirport,@PathParam("departuredate") long departuredate) throws NonexistentEntityException {
+    public String getFlights(@PathParam("startAirport") String startAirport, @PathParam("departuredate") long departuredate) throws NonexistentEntityException {
 
-    
-        List<Flight> allFlights = facade.getAllFlights(startAirport,departuredate);
-          
-         if (allFlights.isEmpty()) {
-              JsonObject jo = new JsonObject();
-            jo.addProperty("code","1");
-            jo.addProperty("message", " No available flights");
-            jo.addProperty("description", "No available flights"); 
-            return  jo.toString();
-        } 
-       
+        List<Flight> allFlights = facade.getAllFlights(startAirport, departuredate);
+
+        if (allFlights.isEmpty()) {
+            errorHandling("1", "No available flights", "No available flights");
+        }
+
         return gson.toJson(allFlights);
     }
-     
+
     @GET
     @Path("{startAirport}/{endAirport}/{date}")
     @Produces("text/plain")
-    public String getFlights2(@PathParam("startAirport") String startAirport,@PathParam("endAirport") String endAirport,@PathParam("date") String date) throws NonexistentEntityException {
- 
-        List<Flight> allFlights = facade.getAllFlights2(startAirport,endAirport,date);
-      
+    public String getFlights2(@PathParam("startAirport") String startAirport, @PathParam("endAirport") String endAirport, @PathParam("date") String date) throws NonexistentEntityException {
+
+        List<Flight> allFlights = facade.getAllFlights2(startAirport, endAirport, date);
+
         if (allFlights.isEmpty()) {
-               JsonObject jo = new JsonObject();
-            jo.addProperty("code","1");
-            jo.addProperty("message", " No available flights");
-            jo.addProperty("description", "No available flights"); 
-            return  jo.toString();
-        }   
-        else
-        {
-        return gson.toJson(allFlights);
+            errorHandling("1", "No available flights", "No available flights");
         }
+        return gson.toJson(allFlights);
+
     }
 
-     
     @GET
     @Path("{reservationId}")
     @Produces("application/json")
     public String getSingleReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
 
         Reservation p = facade.getReservation(reservationId);
-        System.out.println();
-        if (p == null ) {
-                JsonObject jo = new JsonObject();
-            jo.addProperty("code","1");
-            jo.addProperty("message", "Invalid ReservationID");
-            jo.addProperty("description", "Invalid ReservationID"); 
-            return  jo.toString();
-        }
-        else{
-        JSONObject reservation = new JSONObject();
-reservation.put("ReservationId", p.getId());
-reservation.put("PassengerCount", p.getPassengerCount());
-reservation.put("FlightId", p.getFlightId()); 
+        String returnString = "";
+        if (p == null) {
 
- 
+            returnString = errorHandling("1", "Invalid ReservationID", "Invalid ReservationID");
+        } else {
+            JSONObject reservation = new JSONObject();
+            reservation.put("ReservationId", p.getId());
+            reservation.put("PassengerCount", p.getPassengerCount());
+            reservation.put("FlightId", p.getFlightId());
+
             JSONArray passengersList = new JSONArray();
-    List<Passenger>   passengers = facade.getPassengers(reservationId);
-         for(int i = 0 ; i< passengers.size() ; i++){
-            Passenger p1 = passengers.get(i);
-     JSONObject passenger = new JSONObject();
-        passenger.put("PassengerId", p1.getId()); 
-        passenger.put("ReservationId", p1.getReservationId()); 
-        passenger.put("Name", p1.getName()); 
-        passenger.put("Address", p1.getAddress()); 
-        passenger.put("City", p1.getCity()); 
-        passenger.put("Country", p1.getCountry()); 
-       passengersList.add(passenger);
-                                                    } 
-         
-        JSONObject mainObj = new JSONObject();
-        mainObj.put("Reservation", reservation);
-        mainObj.put("Passengers", passengersList);
-        
-        return mainObj.toString();
-    
-        
+            List<Passenger> passengers = facade.getPassengers(reservationId);
+            for (int i = 0; i < passengers.size(); i++) {
+                Passenger p1 = passengers.get(i);
+                JSONObject passenger = new JSONObject();
+                passenger.put("PassengerId", p1.getId());
+                passenger.put("ReservationId", p1.getReservationId());
+                passenger.put("Name", p1.getName());
+                passenger.put("Address", p1.getAddress());
+                passenger.put("City", p1.getCity());
+                passenger.put("Country", p1.getCountry());
+                passengersList.add(passenger);
+            }
+            reservation.put("Passengers", passengersList);
+            returnString = reservation.toString();
+
         }
+        return returnString;
     }
 
-    @POST  
+    @POST
     @Path("{flightID}")
     @Consumes("application/json")
-    public String addReservation(String Passengers,@PathParam("flightID") long flightID) { 
-       Passenger[] p = gson.fromJson(Passengers, Passenger[].class);
-        
-        facade.CreateReservation(p, flightID);
-        if(Arrays.toString(p).isEmpty()){
-                JsonObject jo = new JsonObject();
-            jo.addProperty("code","9");
-            jo.addProperty("message", "Unknown error");
-            jo.addProperty("description", "Reservation not created"); 
-            return  jo.toString();
+    public String addReservation(String Passengers, @PathParam("flightID") long flightID) {
+        Passenger[] p = gson.fromJson(Passengers, Passenger[].class);
+        String returnString = "";
+
+        if (facade.CreateReservation(p, flightID) == true) {
+            if (Arrays.toString(p).isEmpty()) {
+                errorHandling("9", "Unknown error", "Reservation not created");
+            } else {
+                returnString = errorHandling("1", "Success", "Reservation complete");
+            }
+
         } else {
-            return  Arrays.toString(p);
+            returnString = errorHandling("10", "Unknown error", "Not enough tickets");
         }
-        
+        return returnString;
     }
-    
-      @DELETE
-      @Path("delete/{reservationId}") 
+
+    @DELETE
+    @Path("delete/{reservationId}")
     public void deleteReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
-         facade.deleteReservation(reservationId);
-         
-         
+        facade.deleteReservation(reservationId);
     }
+
     @GET
     @Path("plane/{planeID}")
     @Produces("text/plain")
     public String getPlane(@PathParam("planeID") long planeID) throws NonexistentEntityException {
 
-    
         List<Plane> allPlane = facade.getPlane(planeID);
-          
-         if (allPlane.isEmpty()) {
-              JsonObject jo = new JsonObject();
-            jo.addProperty("code","1");
-            jo.addProperty("message", " Invalid PlaneID");
-            jo.addProperty("description", "Invalid PlaneID"); 
-            return  jo.toString();
-        } 
-       
+
+        if (allPlane.isEmpty()) {
+            errorHandling("1", "Error", "Invalid PlaneID");
+        }
+
         return gson.toJson(allPlane);
     }
-     
+
+    public String errorHandling(String code, String message, String description) {
+        JsonObject jo = new JsonObject();
+        jo.addProperty("code", code);
+        jo.addProperty("message", message);
+        jo.addProperty("description", description);
+        return jo.toString();
+
+    }
 }

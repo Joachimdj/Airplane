@@ -7,8 +7,8 @@ package Entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue; 
-import javax.persistence.Id; 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  *
@@ -16,14 +16,13 @@ import javax.persistence.Id;
  */
 @Entity
 public class Reservation implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "g1") 
-    private Long reservationId; 
+    @GeneratedValue(generator = "g1")
+    private Long reservationId;
     private Long passengerCount;
     private Long flightId;
-
-    
 
     public Long getPassengerCount() {
         return passengerCount;
@@ -73,5 +72,5 @@ public class Reservation implements Serializable {
     public String toString() {
         return "\"reservationId\":\"1\"\",\"passengerCount\":\"4\",\"flightId\":\"2\"";
     }
-    
+
 }

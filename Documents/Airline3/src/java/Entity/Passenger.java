@@ -21,14 +21,15 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Passenger implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; 
+    private Long id;
     private Long reservationId;
-    private String address;  
-    private String city; 
-    private String country; 
+    private String address;
+    private String city;
+    private String country;
     private String name;
 
     public long getReservationId() {
@@ -38,8 +39,6 @@ public class Passenger implements Serializable {
     public void setReservationId(long reservationId) {
         this.reservationId = reservationId;
     }
-
-    
 
     public String getAddress() {
         return address;
@@ -72,9 +71,7 @@ public class Passenger implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-   
-    
+
     public Long getId() {
         return id;
     }
@@ -107,5 +104,5 @@ public class Passenger implements Serializable {
     public String toString() {
         return "{" + id + "}";
     }
-    
+
 }

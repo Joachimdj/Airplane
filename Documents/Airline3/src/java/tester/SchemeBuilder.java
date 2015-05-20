@@ -12,10 +12,10 @@ import javax.persistence.Persistence;
  * @author joachimdittman
  */
 public class SchemeBuilder {
-     public static void main(String[] args) {
-  Persistence.generateSchema("CA2", null);
- 
+
+    public static void main(String[] args) {
+        Persistence.generateSchema("CA2", null);
+
     }
 
-     
 }

@@ -6,65 +6,24 @@
 package Entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author joachimdittman
  */
 @Entity
-public class Passenger implements Serializable {
+public class Plane implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; 
-    private Long reservationId;
-    private String address;  
-    private String city; 
-    private String country; 
+    private Long id;
     private String name;
-
-    public long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(long reservationId) {
-        this.reservationId = reservationId;
-    }
-
-    
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
+    private String seats;
+ 
     public String getName() {
         return name;
     }
@@ -72,9 +31,15 @@ public class Passenger implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-   
-    
+
+    public String getSeats() {
+        return seats;
+    }
+
+    public void setSeats(String seats) {
+        this.seats = seats;
+    }
+
     public Long getId() {
         return id;
     }
@@ -93,10 +58,10 @@ public class Passenger implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Passenger)) {
+        if (!(object instanceof Plane)) {
             return false;
         }
-        Passenger other = (Passenger) object;
+        Plane other = (Plane) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +70,7 @@ public class Passenger implements Serializable {
 
     @Override
     public String toString() {
-        return "{" + id + "}";
+        return "Entity.Plane[ id=" + id + " ]";
     }
     
 }

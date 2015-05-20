@@ -42,6 +42,10 @@ public class DBFacade implements DBInterface{
         
         return   allReservations;
     }
+     public List<Plane> getPlane(Long id) { 
+     Query query = em.createQuery("SELECT p FROM Plane p WHERE p.id = "+id);
+         return   query.getResultList();
+        }
     @Override
     public List<Flight> getAllFlights(String startAirport, Long departuredate) {
         List<Flight> allFlights = new ArrayList();
@@ -57,7 +61,7 @@ public class DBFacade implements DBInterface{
         allFlights = query.getResultList();
         return allFlights;
     }
-    
+ 
     @Override
     public void deleteReservation(Long id){
          
@@ -71,14 +75,15 @@ public class DBFacade implements DBInterface{
     }
     
   @Override
-    public Reservation CreateReservation(Passenger[] passengerObjects, long flightID) {
-         
+    public boolean CreateReservation(Passenger[] passengerObjects, long flightID) {
           
-       
+          if(checkSeats(flightID, passengerObjects.length)==true){
+          
+          
         Reservation r = new Reservation();
          r.setFlightId(flightID);
          r.setPassengerCount(Long.parseLong(""+passengerObjects.length));
-         
+          //  updateSeats(flightID,passengerObjects.length);
           em.getTransaction().begin(); 
         em.merge(r);
           em.getTransaction().commit();
@@ -93,21 +98,45 @@ public class DBFacade implements DBInterface{
          p.setCity(passengerObject.getCity());
          p.setCountry(passengerObject.getCountry());
         p.setReservationId(allReservations.get(allReservations.size()-1).getId());
-          
+       
          em.getTransaction().begin(); 
           em.merge(p);
             em.getTransaction().commit();
+            }
+       return true;
+        }
+        else
+         {
+             return false;
+         }
+       
+        
+    }
+      public boolean checkSeats(long FlightID,long seats) {
+        List<Flight> allFlights = new ArrayList();
+        List<Plane> allPlane = new ArrayList();
+        Query query = em.createQuery("SELECT e FROM Flight e WHERE e.flightid='"+FlightID+"'");
+        allFlights = query.getResultList();
+        String planeId = allFlights.get(0).getFlightid().toString(); 
+        String bookedSeats = allFlights.get(0).getBookedseats().toString(); 
+        
+        Query query1 = em.createQuery("SELECT e FROM Flight e WHERE e.flightid='"+planeId+"'");
+        allPlane = query1.getResultList(); 
+        String planeSeats = allPlane.get(0).getSeats(); 
+        if(Integer.parseInt(planeSeats) > Integer.parseInt(bookedSeats)){
+        return true;
+        }else{
+        return false;
         }
         
        
-        return null;
-    }
- @Override
-    public Passenger CreatePassenger(Passenger passengerObject) {
-         
-         
-        return null;
-    }
+    } 
+      public void updateSeats(long FlightID,long seats) {
+      
+        em.createQuery("UPDATE Flight SET p.bookedseats+'"+seats+"' WHERE p.flightid='"+FlightID+"'");
+          
+    } 
+ 
  
  
 }

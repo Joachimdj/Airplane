@@ -8,7 +8,7 @@ package rest;
 import Entity.*;
 import facade.DBFacade;
 import Entity.exceptions.*;
-
+import org.json.simple.JSONObject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -20,9 +20,11 @@ import com.google.gson.JsonObject;
 import facade.DBInterface; 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import org.json.simple.JSONArray;
 
 /**
  * REST Web Service
@@ -101,6 +103,7 @@ public class Api {
     public String getSingleReservation(@PathParam("reservationId") long reservationId) throws NonexistentEntityException {
 
         Reservation p = facade.getReservation(reservationId);
+        System.out.println();
         if (p == null ) {
                 JsonObject jo = new JsonObject();
             jo.addProperty("code","1");
@@ -109,19 +112,43 @@ public class Api {
             return  jo.toString();
         }
         else{
-        String jsonPassengers = gson.toJson(facade.getPassengers(reservationId));
-        String json = gson.toJson(p);
-       
-        return json +",Passengers:"+ jsonPassengers ;
+        JSONObject reservation = new JSONObject();
+reservation.put("ReservationId", p.getId());
+reservation.put("PassengerCount", p.getPassengerCount());
+reservation.put("FlightId", p.getFlightId()); 
+
+ 
+            JSONArray passengersList = new JSONArray();
+    List<Passenger>   passengers = facade.getPassengers(reservationId);
+         for(int i = 0 ; i< passengers.size() ; i++){
+            Passenger p1 = passengers.get(i);
+     JSONObject passenger = new JSONObject();
+        passenger.put("PassengerId", p1.getId()); 
+        passenger.put("ReservationId", p1.getReservationId()); 
+        passenger.put("Name", p1.getName()); 
+        passenger.put("Address", p1.getAddress()); 
+        passenger.put("City", p1.getCity()); 
+        passenger.put("Country", p1.getCountry()); 
+       passengersList.add(passenger);
+                                                    } 
+         
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("Reservation", reservation);
+        mainObj.put("Passengers", passengersList);
+        
+        return mainObj.toString();
+    
+        
         }
     }
 
     @POST  
+    @Path("{flightID}")
     @Consumes("application/json")
-    public String addReservation(String Passengers) { 
+    public String addReservation(String Passengers,@PathParam("flightID") long flightID) { 
        Passenger[] p = gson.fromJson(Passengers, Passenger[].class);
         
-        facade.CreateReservation(p, 1);
+        facade.CreateReservation(p, flightID);
         if(Arrays.toString(p).isEmpty()){
                 JsonObject jo = new JsonObject();
             jo.addProperty("code","9");
@@ -140,6 +167,24 @@ public class Api {
          facade.deleteReservation(reservationId);
          
          
+    }
+    @GET
+    @Path("plane/{planeID}")
+    @Produces("text/plain")
+    public String getPlane(@PathParam("planeID") long planeID) throws NonexistentEntityException {
+
+    
+        List<Plane> allPlane = facade.getPlane(planeID);
+          
+         if (allPlane.isEmpty()) {
+              JsonObject jo = new JsonObject();
+            jo.addProperty("code","1");
+            jo.addProperty("message", " Invalid PlaneID");
+            jo.addProperty("description", "Invalid PlaneID"); 
+            return  jo.toString();
+        } 
+       
+        return gson.toJson(allPlane);
     }
      
 }

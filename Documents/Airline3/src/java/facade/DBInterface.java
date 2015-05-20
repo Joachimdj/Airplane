@@ -22,10 +22,12 @@ public interface DBInterface {
 
     public void deleteReservation(Long id);
     
-  public Reservation CreateReservation(Passenger[] passengerObjects, long flightID);
+  public boolean CreateReservation(Passenger[] passengerObjects, long flightID);
 
-  public Passenger CreatePassenger(Passenger passengerObject);
- 
+  public List<Plane> getPlane(Long id);
+  
+  public boolean checkSeats(long FlightID,long seats);
+  
   public List<Passenger> getPassengers(Long id);
     
 }

@@ -5,7 +5,6 @@
  */
 package Entity;
 
-import java.math.BigInteger;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,6 +17,7 @@ public class Flight   {
     
     @Id
     private Integer flightid; 
+    private String AirlineName; 
     private String arrivaldate;
     private Long bookedseats;
     private String departuredate;
@@ -26,8 +26,9 @@ public class Flight   {
     private String depature;
     private Long planeid;
 
-    public Flight(Integer flightid, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String  depature, Long planeid) {
+    public Flight(Integer flightid, String AirlineName, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String  depature, Long planeid) {
         this.flightid = flightid;
+        this.AirlineName = AirlineName;
         this.arrivaldate = arrivaldate;
         this.bookedseats = bookedseats;
         this.departuredate = departuredate;
@@ -47,6 +48,14 @@ public class Flight   {
 
     public void setFlightid(Integer flightid) {
         this.flightid = flightid;
+    }
+
+    public String getAirlineName() {
+        return AirlineName;
+    }
+
+    public void setAirlineName(String AirlineName) {
+        this.AirlineName = AirlineName;
     }
 
     public String getArrivaldate() {

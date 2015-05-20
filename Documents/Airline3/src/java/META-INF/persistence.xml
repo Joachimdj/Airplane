@@ -5,6 +5,7 @@
     <class>Entity.Flight</class>
     <class>Entity.Passenger</class>
     <class>Entity.Reservation</class>
+    <class>Entity.Plane</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@datdb.cphbusiness.dk:1521:dat"/>

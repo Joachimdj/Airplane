@@ -30,7 +30,8 @@ public class Passenger implements Serializable {
     private String address;
     private String city;
     private String country;
-    private String name;
+    private String firstName;
+    private String lastName;
 
     public long getReservationId() {
         return reservationId;
@@ -64,13 +65,21 @@ public class Passenger implements Serializable {
         this.country = country;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+     public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 
     public Long getId() {
         return id;

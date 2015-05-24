@@ -17,21 +17,21 @@ public class Flight {
 
     @Id
     private Integer flightid;
-    private String AirlineName;
-    private String arrivaldate;
+    private String airline;
+    private String landingDate;
     private Long bookedseats;
-    private String departuredate;
+    private String takeOffDate;
     private Long price;
     private String destination;
     private String depature;
     private Long planeid;
 
-    public Flight(Integer flightid, String AirlineName, String arrivaldate, Long bookedseats, String departuredate, Long price, String destination, String depature, Long planeid) {
+    public Flight(Integer flightid, String airline, String landingDate, Long bookedseats, String takeOffDate, Long price, String destination, String depature, Long planeid) {
         this.flightid = flightid;
-        this.AirlineName = AirlineName;
-        this.arrivaldate = arrivaldate;
+        this.airline = airline;
+        this.landingDate = landingDate;
         this.bookedseats = bookedseats;
-        this.departuredate = departuredate;
+        this.takeOffDate = takeOffDate;
         this.price = price;
         this.destination = destination;
         this.depature = depature;
@@ -50,20 +50,20 @@ public class Flight {
         this.flightid = flightid;
     }
 
-    public String getAirlineName() {
-        return AirlineName;
+    public String getairline() {
+        return airline;
     }
 
-    public void setAirlineName(String AirlineName) {
-        this.AirlineName = AirlineName;
+    public void setairline(String airline) {
+        this.airline = airline;
     }
 
-    public String getArrivaldate() {
-        return arrivaldate;
+    public String getLandingDate() {
+        return landingDate;
     }
 
-    public void setArrivaldate(String arrivaldate) {
-        this.arrivaldate = arrivaldate;
+    public void setLandingDate(String landingDate) {
+        this.landingDate = landingDate;
     }
 
     public Long getBookedseats() {
@@ -74,12 +74,12 @@ public class Flight {
         this.bookedseats = bookedseats;
     }
 
-    public String getDeparturedate() {
-        return departuredate;
+    public String getTakeOffDate() {
+        return takeOffDate;
     }
 
-    public void setDeparturedate(String departuredate) {
-        this.departuredate = departuredate;
+    public void setTakeOffDate(String takeOffDate) {
+        this.takeOffDate = takeOffDate;
     }
 
     public Long getPrice() {

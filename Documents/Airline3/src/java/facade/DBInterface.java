@@ -30,5 +30,6 @@ public interface DBInterface {
     public boolean checkSeats(long FlightID, long seats);
 
     public List<Passenger> getPassengers(Long id);
+ 
 
 }
